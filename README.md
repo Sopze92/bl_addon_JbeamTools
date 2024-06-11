@@ -3,7 +3,7 @@
 ### JBEAM tools:
 for BeamNG Modding
 
-I don't like the official **Jbeam editor for Blender** so I'm making a simpler one with the tools i really need, unlike the official, this one supports **Ctrl-Z** as it works along with a standard blender mesh
+I was pretty unhappy with the official **Jbeam editor for Blender** so I'm making a simpler one with the tools i really need, unlike the official, this one supports **Ctrl-Z** as it works along with a standard blender mesh
 
 any mesh can be non-destructively turned into a Jbeam-data-holder, it stores te JBeam data as vertex/edge attributes, currently the features are:
 

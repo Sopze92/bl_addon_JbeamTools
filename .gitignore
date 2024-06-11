@@ -1,0 +1,13 @@
+# .gitignore
+
+# Ignore Blender temporary files
+*.blend1
+*.blend2
+
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+
+# Ignore system files
+.DS_Store
+Thumbs.db
