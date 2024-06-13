@@ -1,6 +1,6 @@
 
-from .globals import __GLOBALS__
-from . import const as __CONSTANTS__
+from .core.globals import __GLOBALS__
+from .core import const as __CONSTANTS__
 
 import bpy, bmesh
 
@@ -12,6 +12,11 @@ def get_active_object_bmesh(context):
     bm = bmesh.new()
     bm.from_mesh(context.active_object.data)
 
+  return bm
+
+def get_object_bmesh(obj):
+  bm = bmesh.new()
+  bm.from_mesh(obj.data)
   return bm
 
 def is_object_mesh(obj):

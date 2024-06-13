@@ -1,15 +1,16 @@
 # Blender UNOFFICIAL Jbeam-Tools Addon
 
-### JBEAM tools:
 for BeamNG Modding
 
 I was pretty unhappy with the official **Jbeam editor for Blender** so I'm making a simpler one with the tools i really need, unlike the official, this one supports **Ctrl-Z** as it works along with a standard blender mesh
 
 any mesh can be non-destructively turned into a Jbeam-data-holder, it stores te JBeam data as vertex/edge attributes, currently the features are:
 
-- naming nodes (vertex attributes)
-- real-time visuzalization of node names in all 3D viewports
-- copy selected vertex / edges as Nodes / Beams respectively to later paste them directly on your Jbeam files, (respecting selection order)
+- assign node name directly on mesh vertices
+- copy selected vertex / edges as Nodes / Beams respectively in a Jbeam-ready text format so you can paste them there directly, (+ respecting selection order!)
+- 3 real-time visualization modes for nodes in all 3D views: **Normal**, **Names**, **Normal+Names**
+- 1 real-time visualization mode for beams in all 3D views
+- customizable real-time visualization settings such as colors, sizes and xray
 
 #### coming up:
 
