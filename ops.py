@@ -127,12 +127,12 @@ class JBEAMTOOLS_VERTEX_OT_JbeamCopyVertices(bpy.types.Operator): # ------------
     bm= utils.get_active_object_bmesh(context)
     jinfo= utils.create_bmesh_jbeam_info(bm)
 
-    if len(jinfo.hist_len) > 0:
+    if jinfo.hist_len > 0:
 
       _layer_nodes= jinfo.layer_nodes
       result= []
 
-      for se in jinfo.hist_len:
+      for se in jinfo.hist:
 
         if isinstance(se, bmesh.types.BMVert):
 
@@ -145,7 +145,7 @@ class JBEAMTOOLS_VERTEX_OT_JbeamCopyVertices(bpy.types.Operator): # ------------
           continue
       
       if len(result) > 0:
-        context.window_manager.clipboard= '\n' + {'\n'.join(result)} + '\n'
+        context.window_manager.clipboard= '\n' + '\n'.join(result) + '\n'
         print(result)
 
       bm.free()
@@ -169,7 +169,7 @@ class JBEAMTOOLS_EDGE_OT_JbeamCopyEdges(bpy.types.Operator): # -----------------
     bm= utils.get_active_object_bmesh(context)
     jinfo= utils.create_bmesh_jbeam_info(bm)
 
-    if len(jinfo.hist_len) > 0:
+    if jinfo.hist_len > 0:
 
       _layer_nodes= jinfo.layer_nodes
       result= []
@@ -183,13 +183,13 @@ class JBEAMTOOLS_EDGE_OT_JbeamCopyEdges(bpy.types.Operator): # -----------------
             str(se.verts[1][_layer_nodes], 'utf-8')
           )
 
-          result.append(f"[\"{names[0]}\", \"{names[1]}\"]\n")
+          result.append(f"[\"{names[0]}\", \"{names[1]}\"]")
 
         else:
           continue
 
       if len(result) > 0:
-        context.window_manager.clipboard= '\n' + {'\n'.join(result)} + '\n'
+        context.window_manager.clipboard= '\n' + '\n'.join(result) + '\n'
         print(result)
     
       bm.free()

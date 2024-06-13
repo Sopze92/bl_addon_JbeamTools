@@ -131,7 +131,7 @@ class JBEAMTOOLS_Addon_Props(bpy.types.PropertyGroup):
   jbeam_beamvis_color: FloatVectorProperty(
 		description= "The Beam color",
 		min= 0, max= 1, size= 4, subtype='COLOR', 
-    default= (.2, 1.0, .0, 1.0)
+    default= (.0, .88, .0, 1.0)
 	)
 
   jbeam_beamvis_size: IntProperty(
@@ -161,7 +161,7 @@ class JBEAMTOOLS_Addon_Props(bpy.types.PropertyGroup):
   jbeam_beamtextvis_fgcolor: FloatVectorProperty(
 		description= "The Beam text foreground color",
 		min= 0, max= 1, size= 4, subtype='COLOR', 
-    default= (.2, 1.0, .0, 1.0)
+    default= (.0, .88, .0, 1.0)
 	)
 
   jbeam_beamtextvis_bgcolor: FloatVectorProperty(

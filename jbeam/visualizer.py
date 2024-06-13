@@ -37,6 +37,27 @@ def update_visualizer_data(context):
   vis_data.jinfo= utils.create_bmesh_jbeam_info(vis_data.bm)
   return True
 
+def get_selection_data(verts, edges):
+  global vis_data
+
+  sel_vert= vis_data.jinfo.hist_type == 'NODE'
+  sel_edge= vis_data.jinfo.hist_type == 'BEAM'
+
+  select= None
+
+  if sel_vert:
+    active= vis_data.jinfo.hist.active.index
+    select= [2 if v.index == active else 1 if v.select else 0 for v in verts]
+
+  elif sel_edge:
+    active= vis_data.jinfo.hist.active.index
+    select= [2 if e.index == active else 1 if e.select else 0 for e in edges]
+
+  return 1 if sel_vert else 2 if sel_edge else 0, select
+
+def get_color(basecol):
+  return (basecol, [v*2+.75 for v in basecol], [1,1,1,1])
+
 #
 # ---------------------------------------------------------------- NODE VIS
 # 
@@ -52,7 +73,8 @@ def draw_nodevis(context):
 
   matrix= bpy.context.object.matrix_world
 
-  verts= vis_data.bm.verts
+  edges= [*vis_data.bm.edges]
+  verts= [*vis_data.bm.verts]
   for v in verts: 
     v.co= matrix @ v.co
 
@@ -64,10 +86,9 @@ def draw_nodevis(context):
     psize_base*1.2 + 3,
     psize_base*1.3 + 6
   ]
-  pcolor= jbtools.jbeam_nodevis_color
 
-  #active= vis_data.jinfo.hist.active.index if vis_data.jinfo.hist_type == 'NODE' else -1
-  #select= [2 if v.index == active else 1 if v.select else 0 for v in verts]
+  sel_mode, select= get_selection_data(verts, edges)
+  node_color_default= get_color(jbtools.jbeam_nodevis_color)
 
   #point_color= [
   #  pcolor,
@@ -77,10 +98,19 @@ def draw_nodevis(context):
   buf_color= []
     
   # create render buffers
-  for v in verts:
+  for i in range(len(verts)):
+
+    v= verts[i]
+    vcolor= node_color_default[0]
+
+    if sel_mode==1:
+      vcolor= node_color_default[select[i]]
+
+    elif sel_mode==2:
+      vcolor= node_color_default[select[v.edge.index]]
 
     buf_pos.append(v.co)
-    buf_color.append(pcolor)
+    buf_color.append(vcolor)
         
   zmode= jbtools.jbeam_nodevis_ztest
   gpu.state.point_size_set(psize_base)
@@ -204,8 +234,11 @@ def draw_beamvis(context):
 
   matrix= bpy.context.object.matrix_world
 
-  for v in vis_data.bm.verts:
-    v.co= matrix @ v.co
+  edges= [*vis_data.bm.edges]
+  verts= [*vis_data.bm.verts]
+  for e in verts:
+    e.co= matrix @ e.co
+
 
   # setup LINES
   lsize_base= jbtools.jbeam_beamvis_size
@@ -215,24 +248,29 @@ def draw_beamvis(context):
   #  lsize_base*1.2 + 3,
   #  lsize_base*1.3 + 6
   #)
-  lcolor= jbtools.jbeam_beamvis_color
 
-  #active= vis_data.jinfo.hist.active.index if vis_data.jinfo.hist_type == 'BEAM' else -1
-  #select= [2 if e.index == active else 1 if e.select else 0 for e in edges]
-
-  line_color= (
-    lcolor,
-    lcolor,
-  )
+  sel_mode, select= get_selection_data(verts, edges)
+  beam_color_default= get_color(jbtools.jbeam_beamvis_color)
 
   buf_pos= []
   buf_color= []
 
   # create render buffers
-  for v in vis_data.bm.edges:
+  for i in range(len(edges)):
+    
+    e= edges[i]
+    buf_pos.extend([v.co for v in e.verts])
 
-    buf_pos.extend([v.co for v in v.verts])
-    buf_color.extend(line_color)
+    ecolors= [beam_color_default[0], beam_color_default[0]]
+
+    if sel_mode==1:
+      ecolors[0]= beam_color_default[select[e.verts[0].index]]
+      ecolors[1]= beam_color_default[select[e.verts[1].index]]
+
+    elif sel_mode==2:
+      ecolors[0]= ecolors[1]= beam_color_default[select[i]]
+
+    buf_color.extend(ecolors)
         
   zmode= jbtools.jbeam_beamvis_ztest
   gpu.state.line_width_set(lsize_base)
@@ -245,17 +283,18 @@ def draw_beamvis(context):
   vert_buf.attr_fill('color', buf_color)
 
   batch= GPUBatch(type='LINES', buf=vert_buf)
-  batch.draw(__GLOBALS__.flat_shader)
+  batch.draw(__GLOBALS__.smooth_shader)
 
   if zmode == 2:
 
+    # create colors for behind part
     buf_color_b= []
 
     for j in range(len(buf_color)):
       lcolor_b= [*buf_color[j]]
-      lcolor_b[0]*=.625
-      lcolor_b[1]*=.625
-      lcolor_b[2]*=.625
+      lcolor_b[0]*=.75
+      lcolor_b[1]*=.75
+      lcolor_b[2]*=.75
       lcolor_b[3]*=.25
       buf_color_b.append(lcolor_b)
   
@@ -266,7 +305,7 @@ def draw_beamvis(context):
     vert_buf.attr_fill('color', buf_color_b)
 
     batch= GPUBatch(type='LINES', buf=vert_buf)
-    batch.draw(__GLOBALS__.flat_shader)
+    batch.draw(__GLOBALS__.smooth_shader)
       
 #
 # ---------------------------------------------------------------- BEAM TEXT VIS

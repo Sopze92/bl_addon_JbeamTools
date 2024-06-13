@@ -13,7 +13,7 @@ class JBEAMTOOLS_globals():
   selection_edge= False
 
   flat_shader= gpu.shader.from_builtin('FLAT_COLOR')
-  flat_shader_b= gpu.shader.from_builtin('FLAT_COLOR')
+  smooth_shader= gpu.shader.from_builtin('SMOOTH_COLOR')
 
   flat_shader_vertformat = GPUVertFormat()
   flat_shader_vertformat.attr_add(id='pos',    comp_type='F32',  len=3,  fetch_mode='FLOAT')

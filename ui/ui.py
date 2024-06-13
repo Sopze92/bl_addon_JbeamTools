@@ -53,7 +53,7 @@ class VIEW3D_PT_jbeamtools_main_panel(bpy.types.Panel):
 
           row= lay.row()
           if _node: 
-            row.prop(jbtools, 'jbeam_active_node_name')
+            row.prop(jbtools, 'jbeam_active_node_name', text="Name")
         
         bm.free()
 
