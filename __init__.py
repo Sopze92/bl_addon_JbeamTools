@@ -2,14 +2,15 @@ bl_info = {
   "name": "Sopze's Jbeam Tools",
   "description": "A few Jbeam tools to make working with Nodes/Beams less tedious.",
   "author": "Sergio 'Sopze' del Pino",
-  "version": (0, 1, 2),
+  "version": (0, 2, 0),
   "blender": (4, 0, 0),
   "location": "3D View > Toolbox",
   "category": "Util"
 }
 
+from .ops import ops
 from .core import globals
-from . import ops, props
+from . import props
 from .ui import ui
 
 def register():
