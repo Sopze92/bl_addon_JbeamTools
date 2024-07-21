@@ -42,7 +42,7 @@ class JBEAMTOOLS_VERTEX_OT_JbeamCopyVertices(bpy.types.Operator):
 
         if isinstance(se, bmesh.types.BMVert):
 
-          name= str(se[_layer_nodes], 'utf-8')
+          name= utils.get_node_name_full(se[_layer_nodes])
           pos= ", ".join(["{:4.2f}".format(v) for v in bm.verts[se.index].co])
 
           result.append(f"[\"{name}\", {pos}]")
@@ -107,8 +107,8 @@ class JBEAMTOOLS_EDGE_OT_JbeamCopyEdges(bpy.types.Operator):
         if isinstance(se, bmesh.types.BMEdge):
 
           names= (
-            se.verts[0][_layer_nodes],
-            se.verts[1][_layer_nodes]
+            utils.get_node_name_full(se.verts[0][_layer_nodes]),
+            utils.get_node_name_full(se.verts[1][_layer_nodes])
           )
 
           result.append(str(b"[\"%s\", \"%s\"]" % (names[0], names[1]), 'utf-8'))

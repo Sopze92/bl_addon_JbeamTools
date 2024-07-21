@@ -176,6 +176,10 @@ def get_node_data_from_attribute(string: str):
   """ Split the attribute into data """
   return string.split('|')
 
+def get_node_name_full(attribute: bytes):
+  """ Get full name string from attribute """
+  return str(attribute, 'utf-8').split('|')[0]
+
 def compose_node_data_raw(data:list) -> str:
   """ Create the node data to be stored in attributes """
   nstr= type(data[2]) != str

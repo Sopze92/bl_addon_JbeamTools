@@ -1,6 +1,12 @@
 # Blender UNOFFICIAL Jbeam-Tools Addon
 
-### v0.2.0 (Current)
+### v0.2.0b (Current)
+- [FIXED] node name adding garbage upon copy
+
+Limitations:
+- Due how Blender works, Shortest-Path and Loop-Select modes break user-selection order
+
+### v0.2.0
 
 - [features] Node side handling tools (increment 'l' or 'r' and clear)
 - [features] Node prefix naming tools
@@ -11,11 +17,6 @@
   - replace: same as recount but doesn't keep gaps
   - invert: inverts the numeral order by selection numbers, NOT user selection order
   - increment/decrement: increments or decremens all selected node numerals by 1
-
-Limitations:
-- Due how Blender works, Shortest-Path and Loop-Select modes break user-selection order
-
----------------------
 
 ### v0.1.3
 - [ui] Beam nodes renaming

@@ -209,7 +209,7 @@ def draw_nodetextvis(context):
       tpos= ( npos[0]+6, npos[1]+4, 0 )
 
       blf.position(1, *tpos)
-      label= utils.get_node_data_from_attribute(str(v[vis_data.jinfo.layer_nodes], 'utf-8'))[0]
+      label= utils.get_node_name_full(v[vis_data.jinfo.layer_nodes])
       #label= str(v[vis_data.jinfo.layer_nodes], 'utf-8')
 
       if draw_bg:
